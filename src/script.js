@@ -23,117 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-document.addEventListener("DOMContentLoaded", function() {
-    // Stub for API request
-    function fetchMailboxInfo() {
-        // Mock data for mailboxes
-        const mockData = [
-            { name: "Mailbox 1", status: "open", info: "No new mail" },
-            { name: "Mailbox 2", status: "closed", info: "1 new mail" },
-            { name: "Mailbox 3", status: "open", info: "2 new mails" }
-        ];
 
-        // Display mailboxes using the mock data
-        displayMailboxes(mockData);
-    }
-
-    // Function to display mailbox information on the page
-    function displayMailboxes(data) {
-        const mailboxesContainer = document.querySelector('.mailboxes');
-
-        // Clear the contents of the container before adding new data
-        mailboxesContainer.innerHTML = '';
-
-        // Iterate over the data and create blocks for each mailbox
-        data.forEach((mailbox, index) => {
-            const mailboxElement = document.createElement('div');
-            mailboxElement.classList.add('mailbox');
-            mailboxElement.dataset.index = index; // Store the index as a data attribute
-
-            // Determine the class for styling based on the mailbox status
-            mailboxElement.classList.add(mailbox.status === 'open' ? 'open' : 'closed');
-
-            // Build the content of the mailbox block
-            mailboxElement.innerHTML = `
-                <div class="title">${mailbox.name}</div>
-                <div class="status">${mailbox.status}</div>
-                <div class="info">Info: ${mailbox.info}</div>
-            `;
-
-            // Add event listener for mailbox block click
-            mailboxElement.addEventListener('click', handleMailboxClick);
-
-            // Add the block with mailbox information to the container
-            mailboxesContainer.appendChild(mailboxElement);
-        });
-    }
-
-    // Event handler for mailbox block click
-    function handleMailboxClick(event) {
-        const mailboxIndex = event.currentTarget.dataset.index;
-        window.location.href = `mailbox-history.html?mailbox=${mailboxIndex}`;
-    }
-
-    // Call the function to fetch mailbox information when the page loads
-    fetchMailboxInfo();
-});
-
-function changeLanguage(language) {
-    // Simulate translation based on language
-    if (language === 'fr') {
-        translateToFrench();
-    } else if (language === 'es') {
-        translateToSpanish();
-    } else if (language === 'de') {
-        translateToGerman();
-    } else if (language === 'ru') {
-        translateToRussian();
-    } else {
-        // Default to English
-        translateToEnglish();
-    }
-}
-
-// Define translation functions for each language
-function translateToEnglish() {
-    // Translate content to English
-    document.querySelector('h2').textContent = "Login";
-    document.querySelector('label[for="username"]').textContent = "Username";
-    document.querySelector('label[for="password"]').textContent = "Password";
-    document.querySelector('button.btn').textContent = "Login";
-}
-
-function translateToFrench() {
-    // Translate content to French
-    document.querySelector('h2').textContent = "Connexion";
-    document.querySelector('label[for="username"]').textContent = "Nom d'utilisateur";
-    document.querySelector('label[for="password"]').textContent = "Mot de passe";
-    document.querySelector('button.btn').textContent = "Connexion";
-}
-
-function translateToSpanish() {
-    // Translate content to Spanish
-    document.querySelector('h2').textContent = "Iniciar sesión";
-    document.querySelector('label[for="username"]').textContent = "Nombre de usuario";
-    document.querySelector('label[for="password"]').textContent = "Contraseña";
-    document.querySelector('button.btn').textContent = "Iniciar sesión";
-}
-
-function translateToGerman() {
-    // Translate content to German
-    document.querySelector('h2').textContent = "Anmeldung";
-    document.querySelector('label[for="username"]').textContent = "Benutzername";
-    document.querySelector('label[for="password"]').textContent = "Passwort";
-    document.querySelector('button.btn').textContent = "Anmeldung";
-}
-
-function translateToRussian() {
-    // Translate content to Russian
-    document.querySelector('h2').textContent = "Войти";
-    document.querySelector('label[for="username"]').textContent = "Имя пользователя";
-    document.querySelector('label[for="password"]').textContent = "Пароль";
-    document.querySelector('button.btn').textContent = "Войти";
-}
 document.addEventListener('mousemove', (e) => {
     const container = document.getElementById('container');
     const xPos = (e.clientX / window.innerWidth) * 100;
@@ -164,4 +54,147 @@ function changeLanguage(lang) {
     });
 
     document.documentElement.setAttribute('lang', lang);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('#login-form');
+    const registerForm = document.querySelector('#register-form');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const formData = { login: username, password: password };
+
+            try {
+                const response = await fetch('http://192.168.168.119:8080/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                    credentials: 'include' // Ensure cookies are included in the request
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to login');
+                }
+
+                const data = await response.json();
+                if (data) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Login failed: Invalid credentials');
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Login failed: ' + error.message);
+            }
+        });
+    }
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const formData = {
+                login: username,
+                password: password,
+                email: email,
+                name: name,
+                surname: surname
+            };
+
+            try {
+                const response = await fetch('http://192.168.168.119:8080/create-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                    credentials: 'include' // Ensure cookies are included in the request
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to register');
+                }
+
+                const data = await response.json();
+                if (data) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Registration failed');
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Registration failed: ' + error.message);
+            }
+        });
+    }
+});
+
+async function fetchPostboxes() {
+    try {
+        const response = await fetch('http://192.168.168.119:8080/postboxes', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' },
+            credentials: 'include' // Ensure cookies are included in the request
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = 'index.html'; // Redirect to login if unauthorized
+            } else {
+                throw new Error('Failed to fetch postboxes');
+            }
+        }
+
+        const postboxes = await response.json();
+        displayPostboxes(postboxes);
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+}
+
+function displayPostboxes(postboxes) {
+    const container = document.getElementById('postboxes-container');
+    container.innerHTML = ''; // Clear any existing content
+
+    postboxes.forEach(postbox => {
+        const postboxDiv = document.createElement('div');
+        postboxDiv.classList.add('mailbox', postbox.isOpen ? 'open' : 'closed');
+        postboxDiv.innerHTML = `
+            <div class="title">${postbox.name}</div>
+            <div class="info">${postbox.info}</div>
+            <div class="status">${postbox.isOpen ? 'Open' : 'Closed'}</div>
+            <button class="btn" onclick="viewHistory(${postbox.id})">View History</button>
+        `;
+        postboxDiv.addEventListener('click', () => {
+            viewHistory(postbox.id);
+        });
+        postboxDiv.style.cursor = 'pointer';
+        container.appendChild(postboxDiv);
+    });
+}
+
+function viewHistory(postboxId) {
+    window.location.href = `mailbox-history.html?postboxId=${postboxId}`;
+}
+
+async function changeLanguage(lang) {
+    const response = await fetch(`resources/${lang}.json`);
+    const translations = await response.json();
+    applyTranslations(translations);
+    localStorage.setItem('lang', lang);
+}
+
+function applyTranslations(translations) {
+    document.querySelectorAll('[data-lang]').forEach(element => {
+        const key = element.getAttribute('data-lang');
+        element.textContent = translations[key];
+    });
+}
+
+function goBack() {
+    window.history.back();
 }
