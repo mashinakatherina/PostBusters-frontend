@@ -1,0 +1,389 @@
+/* Common styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background-color: #FFD700;
+    color: #000;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.content h2 {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.btn:hover {
+    background-color: #FFC107;
+}
+
+.theme-switch {
+    margin-top: 20px;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    background-color: #000;
+    color: #FFD700;
+}
+
+[data-theme="dark"] .sidebar {
+    background-color: #1a1a1a;
+}
+
+[data-theme="dark"] .content {
+    background-color: #1a1a1a;
+    color: #FFD700;
+}
+
+[data-theme="dark"] .input-group input {
+    background-color: #333;
+    color: #FFD700;
+}
+
+[data-theme="dark"] .btn {
+    background-color: #FFD700;
+    color: #000;
+}
+
+/* Light theme */
+[data-theme="light"] {
+    background-color: #fff;
+    color: #000;
+}
+
+[data-theme="light"] .sidebar {
+    background-color: #f0f0f0;
+}
+
+[data-theme="light"] .content {
+    background-color: #f9f9f9;
+    color: #000;
+}
+
+[data-theme="light"] .input-group input {
+    background-color: #fff;
+    color: #000;
+}
+
+[data-theme="light"] .btn {
+    background-color: #FFD700;
+    color: #000;
+}
+
+/* Logo styles */
+header {
+    padding: 2px;
+    background: linear-gradient(to right, #FFD700, #FFA500);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 0;
+}
+
+.logo {
+    max-width: 75px;
+    height: auto;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .logo {
+        max-width: 10%;
+    }
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    background-color: #f0f0f0;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: calc(100% - 20px); /* Ширина поля ввода с учетом отступов */
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.theme-switch {
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.theme-switch .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Content styles */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    background-color: #f9f9f9;
+    color: #000;
+}
+
+.content h2 {
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #FFD700;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #FFC107;
+}
+
+/* Mailbox styles */
+.mailbox {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.mailbox.open {
+    background-color: #c8e6c9; /* Green background for open mailbox */
+}
+
+.mailbox.closed {
+    background-color: #ffcdd2; /* Red background for closed mailbox */
+}
+
+.mailbox .title {
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.mailbox .info {
+    color: #000;
+}
+
+.mailbox .status {
+    color: #666;
+}
+
+/* Dark theme mailbox styles */
+.mailbox {
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #333; /* Dark background for mailbox */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+}
+
+/* History entry styles */
+.history-entry {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+.history-entry .date {
+    font-weight: bold;
+    color: #FFD700;
+}
+
+.history-entry .action {
+    color: #FFD700;
+}
+
+/* Button styles */
+.btn-back {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #FFC107;
+}
+/* Add smooth transition to all elements */
+* {
+    transition: all 0.2s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.language-switcher {
+    display: flex;
+    gap: 5px; /* Adjust spacing between flag buttons */
+}
+
+.language-switcher button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0; /* Remove default button padding */
+}
+
+.language-switcher button img {
+    width: 20px; /* Set the width of flag icons */
+}
