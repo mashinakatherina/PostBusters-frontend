@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#login-form');
     const registerForm = document.querySelector('#register-form');
+    const registerMailForm = document.querySelector('#register-mail-form');
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -102,6 +103,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    if (registerMailForm) {
+        registerMailForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mailname = document.getElementById('mailname').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+            const formData = {
+                name: mailname,
+                address: address,
+                notes: notes
+            };
+
+            try {
+                const response = await fetch('http://192.168.168.119:8080/put/PostBoxes/' +
+                    window.sessionStorage.getItem('name'), {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formData),
+                    // credentials: 'include' // Ensure cookies are included in the request
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to register');
+                }
+
+                const data = await response.json();
+                if (data) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Registration failed');
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Registration failed: ' + error.message);
+            }
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchPostboxes() {
     try {
         const formData = {
-            name: window.sessionStorage.getItem('name')
+            username: window.sessionStorage.getItem('name')
         };
         console.log(window.sessionStorage.getItem('name'));
         const response = await fetch('http://192.168.168.119:8080/PostBoxes', {
@@ -134,32 +173,49 @@ async function fetchPostboxes() {
         }
 
         const postboxes = await response.json();
-        displayPostboxes(postboxes);
+        await displayPostboxes(postboxes);
     } catch (error) {
         console.error('Error:', error.message);
     }
 }
 
-function displayPostboxes(postboxes) {
-    const container = document.getElementById('postboxes-container');
-    container.innerHTML = ''; // Clear any existing content
+async function displayPostboxes(postboxes) {
+    const mailboxesTable = document.createElement('table');
+    mailboxesTable.classList.add('mailbox-table');
 
-    postboxes.forEach(postbox => {
-        const postboxDiv = document.createElement('div');
-        postboxDiv.classList.add('mailbox', postbox.isOpen ? 'open' : 'closed');
-        postboxDiv.innerHTML = `
-            <div class="title">${postbox.name}</div>
-            <div class="info">${postbox.info}</div>
-            <div class="status">${postbox.isOpen ? 'Open' : 'Closed'}</div>
-            <button class="btn" onclick="viewHistory(${postbox.id})">View History</button>
+    // Создаем заголовок таблицы
+    const tableHeader = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headerRow.innerHTML = `
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Notes</th>
+        <!-- Add more header columns if needed -->
+    `;
+    tableHeader.appendChild(headerRow);
+    mailboxesTable.appendChild(tableHeader);
+
+    // Создаем тело таблицы с данными
+    const tableBody = document.createElement('tbody');
+    postboxes.forEach(mail => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${mail.id}</td>
+            <td>${mail.name}</td>
+            <td>${mail.address}</td>
+            <td>${mail.notes}</td>
+            <!-- Add more columns if needed -->
         `;
-        postboxDiv.addEventListener('click', () => {
-            viewHistory(postbox.id);
-        });
-        postboxDiv.style.cursor = 'pointer';
-        container.appendChild(postboxDiv);
+        tableBody.appendChild(row);
     });
+    mailboxesTable.appendChild(tableBody);
+
+    // Добавляем таблицу на страницу
+    const mailboxesDiv = document.querySelector('.mailboxes');
+    mailboxesDiv.appendChild(mailboxesTable);
 }
+
 
 function viewHistory(postboxId) {
     window.location.href = `mailbox-history.html?postboxId=${postboxId}`;

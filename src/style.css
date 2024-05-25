@@ -443,6 +443,7 @@ header {
 
 .login-form .input-group {
     margin-bottom: 15px;
+    margin-right: 20px;
     text-align: left;
 }
 
@@ -459,4 +460,21 @@ header {
     border-radius: 5px;
     background-color: #f0f0f0;
     color: #FFD700;
+}
+.mailbox-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mailbox-table th, .mailbox-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.mailbox-table th {
+    background-color: #ffd700;
+}
+
+.mailbox-table td {
+    background-color: #ffffcc;
 }
