@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
 
-    // Проверяем предпочтительную тему пользователя из локального хранилища
     const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 
-    // Если пользователь ранее выбрал тему, применяем ее
     if (currentTheme) {
         document.documentElement.setAttribute('data-theme', currentTheme);
         if (currentTheme === 'dark') {
@@ -12,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Слушаем изменения в теме
     themeToggle.addEventListener('change', () => {
         if (themeToggle.checked) {
             document.documentElement.setAttribute('data-theme', 'dark');
@@ -24,37 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.addEventListener('mousemove', (e) => {
-    const container = document.getElementById('container');
-    const xPos = (e.clientX / window.innerWidth) * 100;
-    const yPos = (e.clientY / window.innerHeight) * 100;
-    container.style.background = `linear-gradient(${xPos}deg, #ff00ff, #00ffff)`;
-});
-
-const languageData = {
-    en: {
-        login_title: 'Login',
-        login_button: 'Login'
-    },
-    de: {
-        login_title: 'Anmeldung',
-        login_button: 'Anmelden'
-    },
-    ru: {
-        login_title: 'Вход',
-        login_button: 'Войти'
-    }
-};
-
-function changeLanguage(lang) {
-    const elements = document.querySelectorAll('[data-lang]');
-    elements.forEach(element => {
-        const key = element.getAttribute('data-lang');
-        element.innerText = languageData[lang][key];
-    });
-
-    document.documentElement.setAttribute('lang', lang);
-}
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#login-form');
     const registerForm = document.querySelector('#register-form');
@@ -64,12 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const formData = { login: username, password: password };
+            const formData = {
+                login: username,
+                password: password,
+            };
 
             try {
                 const response = await fetch('http://192.168.168.119:8080/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(formData),
                     credentials: 'include' // Ensure cookies are included in the request
                 });
@@ -80,9 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const data = await response.json();
                 if (data) {
+                    window.sessionStorage.clear();
+                    window.sessionStorage.setItem('name', formData.login);
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert('Login failed: Invalid credentials');
+                    alert('Login failed');
                 }
             } catch (error) {
                 console.error('Error:', error.message);
@@ -110,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('http://192.168.168.119:8080/create-user', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(formData),
-                    credentials: 'include' // Ensure cookies are included in the request
+                    // credentials: 'include' // Ensure cookies are included in the request
                 });
 
                 if (!response.ok) {
@@ -133,16 +104,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if the current page is inbox.html
+    if (window.location.pathname.endsWith('inbox.html')) {
+        fetchPostboxes();
+    }
+});
+
 async function fetchPostboxes() {
     try {
-        const response = await fetch('http://192.168.168.119:8080/postboxes', {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' },
-            credentials: 'include' // Ensure cookies are included in the request
+        const formData = {
+            name: window.sessionStorage.getItem('name')
+        };
+        console.log(window.sessionStorage.getItem('name'));
+        const response = await fetch('http://192.168.168.119:8080/PostBoxes', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData),
         });
+
 
         if (!response.ok) {
             if (response.status === 401) {
+                debugger;
                 window.location.href = 'index.html'; // Redirect to login if unauthorized
             } else {
                 throw new Error('Failed to fetch postboxes');

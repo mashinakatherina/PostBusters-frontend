@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" id="html-lang">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header>
+    <img src="resources/logo.png" alt="Logo" class="logo">
+</header>
 <div class="container">
     <div class="login-form">
-        <img src="resources/logo.png" alt="Logo" class="logo">
-        <h2 data-lang="login_title">Login</h2>
-        <form action="dashboard.html" method="post">
+        <h2>Login</h2>
+        <form id="login-form">
             <div class="input-group">
-                <input type="text" id="username" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="input-group">
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn" data-lang="login_button">Login</button>
+            <button type="submit" class="btn">Login</button>
         </form>
-        <div class="language-switcher">
-            <button onclick="changeLanguage('en')"><img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" alt="English"></button>
-            <button onclick="changeLanguage('de')"><img src="https://cdn.countryflags.com/thumbs/germany/flag-400.png" alt="German"></button>
-            <button onclick="changeLanguage('ru')"><img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" alt="Russian"></button>
-        </div>
     </div>
 </div>
 <script src="script.js"></script>

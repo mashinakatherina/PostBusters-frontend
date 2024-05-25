@@ -390,10 +390,10 @@ header {
 
 /* Additional CSS for registration form */
 .registration-form {
-    background-color: #1a1a1a;
+    background-color: #FFFACD;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(255,253,208);
     text-align: center;
     width: 300px;
     margin: auto;
@@ -401,17 +401,18 @@ header {
 
 .registration-form h2 {
     margin-bottom: 20px;
-    color: #FFD700;
+    color: #000000;
 }
 
 .registration-form .input-group {
     margin-bottom: 15px;
+    margin-right: 20px;
     text-align: left;
 }
 
 .registration-form .input-group label {
     display: block;
-    color: #FFD700;
+    color: #000000;
     margin-bottom: 5px;
 }
 
@@ -420,6 +421,42 @@ header {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+/* Additional CSS for login form */
+.login-form {
+    background-color: #FFFACD;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255,253,208);
+    text-align: center;
+    width: 300px;
+    margin: auto;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.login-form .input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.login-form .input-group label {
+    display: block;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.login-form .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
     color: #FFD700;
 }
